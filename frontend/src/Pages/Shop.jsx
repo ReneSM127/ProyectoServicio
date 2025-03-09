@@ -5,6 +5,7 @@ export const Shop = () => {
   return (
     <div>
         <Hero/>
+        <Popular></Popular>
     </div>
   )
 }
