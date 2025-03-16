@@ -3,7 +3,7 @@ import './Hero.css'
 import hand_icon from '../Assets/hand_icon.png'
 import arrow_icon from '../Assets/arrow.png'
 import hero_image from '../Assets/hero_image.png'
-export const Hero = () => {
+const Hero = () => {
     return (
         <div className='hero'>
             <div className="hero-left">
@@ -30,3 +30,5 @@ export const Hero = () => {
         </div>
     )
 }
+
+export default Hero;
