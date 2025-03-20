@@ -11,10 +11,10 @@ function ShopCategory(props) {
       <img className='shopcategory-banner' src={props.banner} alt="" />
       <div className="shopcategory-indexSort">
         <p>
-          <span>Showing 1-12</span> out of 36 products
+          <span>Mostrando 1-12</span> de 36 productos
         </p>
         <div className="shopcategory-sort">
-          Sort by <img src={dropdown_icon} alt="" />
+          Ordenar por <img src={dropdown_icon} alt="" />
         </div>
       </div>
       <div className="shopcategory-products">
@@ -28,7 +28,7 @@ function ShopCategory(props) {
         })}
       </div>
       <div className="shopcategory-loadmore">
-        Explore more
+        Explorar más
       </div>
     </div>
   )

@@ -5,17 +5,17 @@ const LoginSignup = () => {
   return (
     <div className='loginsignup'>
       <div className="loginsignup-container">
-        <h1>Sign Up</h1>
+        <h1>Registrase</h1>
         <div className="loginsignup-fields">
-            <input type="text" placeholder='Your Name' />
-            <input type="email" placeholder='Email Address' />
-            <input type="password" placeholder='Password'/>
+            <input type="text" placeholder='Nombre' />
+            <input type="email" placeholder='Correo' />
+            <input type="password" placeholder='Contraseña'/>
         </div>
-        <button>Continue</button>
-        <p className="loginsignup-login">Already have an acount <span>Login here</span></p>
+        <button>Continuar</button>
+        <p className="loginsignup-login">¿Ya tienes una cuenta? <span>Inicia Sesión aquí</span></p>
         <div className="loginsignup-agree">
           <input type="checkbox" name='' id='' />
-          <p>By continuing, I agree to the terms of use & privacy policy</p>
+          <p>Al continuar, acepto los términos de uso y la política de privacidad.</p>
         </div>
       </div>
     </div>
