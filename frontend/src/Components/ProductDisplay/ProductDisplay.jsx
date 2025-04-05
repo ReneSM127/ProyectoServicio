@@ -38,7 +38,7 @@ const ProductDisplay = (props) => {
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, neque officiis quae veritatis doloremque a necessitatibus dicta omnis nulla ipsa inventore rem aliquam nemo sunt accusantium modi delectus, dolor asperiores!
                 </div>
                 <div className="productdisplay-right-size">
-                    <h1>Select Size</h1>
+                    <h1>Escoger talla</h1>
                     <div className="productdisplay-right-sizes">
                         <div>S</div>
                         <div>M</div>
