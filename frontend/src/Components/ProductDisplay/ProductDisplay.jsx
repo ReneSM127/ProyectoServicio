@@ -5,8 +5,8 @@ import star_dull_icon from '../Assets/star_dull_icon.png';
 import { ShopContext } from '../../Context/ShopContext';
 
 const ProductDisplay = (props) => {
-    const {product} = props;
-    const {addToCart} = useContext(ShopContext);
+    const { product } = props;
+    const { addToCart } = useContext(ShopContext);
     return (
         <div className='productdisplay'>
             <div className="productdisplay-left">
@@ -16,9 +16,9 @@ const ProductDisplay = (props) => {
                     <img src={product.image} alt="" />
                     <img src={product.image} alt="" />
                 </div>
-            </div>
-            <div className="productdisplay-img">
-                <img className='productdisplay-main-img' src={product.image} alt="" />
+                <div className="productdisplay-img">
+                    <img className='productdisplay-main-img' src={product.image} alt="" />
+                </div>
             </div>
             <div className="productdisplay-right">
                 <h1>{product.name}</h1>
@@ -47,9 +47,9 @@ const ProductDisplay = (props) => {
                         <div>XXL</div>
                     </div>
                 </div>
-                <button onClick={()=>{addToCart(product.id)}}>AÑADIR AL CARRITO</button>
-                <p className='productdisplay-right-category'><span>Category :</span>Women, T-shirt, Crop top</p>
-                <p className='productdisplay-right-category'><span>Tags :</span>Modern, Latest</p>
+                <button onClick={() => { addToCart(product.id) }}>AÑADIR AL CARRITO</button>
+                <p className='productdisplay-right-category'><span>Categoria :</span>Women, T-shirt, Crop top</p>
+                <p className='productdisplay-right-category'><span>Etiquetas :</span>Modern, Latest</p>
 
             </div>
 
