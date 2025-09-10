@@ -1,0 +1,105 @@
+.artisanbox {
+    margin: 120px 170px;
+    padding: 48px;
+    border: 1px solid #d0d0d0;
+    background-color: #fbfbfb;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.artisanbox-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.artisanbox-header h2 {
+    color: #3d3d3d;
+    font-size: 30px;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.artisanbox-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #ff4141;
+    border-radius: 10px;
+}
+
+.artisanbox-content {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.artisanbox-image img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.artisanbox-info h3 {
+    color: #3d3d3d;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.artisanbox-info p {
+    color: #555;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+/* Diseño Responsivo */
+@media(max-width:1280px){
+    .artisanbox{
+        margin: 60px;
+    }
+}
+
+@media(max-width:1024px){
+    .artisanbox-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .artisanbox-image img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+
+@media(max-width:800px){
+    .artisanbox{
+        margin: 60px 20px;
+        padding: 30px;
+    }
+    .artisanbox-info p{
+        font-size: 14px;
+    }
+}
+
+@media(max-width:500px){
+    .artisanbox{
+        margin: 40px 10px;
+        padding: 24px;
+    }
+    .artisanbox-header h2 {
+        font-size: 24px;
+    }
+    .artisanbox-info h3 {
+        font-size: 20px;
+    }
+}
