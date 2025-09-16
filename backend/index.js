@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 //Conectar a base de datos
-mongoose.connect("mongodb+srv://admin:admin123@cluster0.x4gdiya.mongodb.net/e-commerce")
+mongoose.connect("mongodb+srv://Rene:Jessie2003@cluster0.lqz1saw.mongodb.net/Ecommerce");
 
 //API creacion
 app.get("/", (req,res)=>{
@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage})
 
-//Creating Upload Endpoint for images
+// Endpoint guardar imagenes
 app.use("/images", express.static("upload/images"))
 
 app.post("/upload",upload.single('product'),(req,res)=>{
@@ -68,7 +68,7 @@ const Product = mongoose.model("Product", {
         type: Date,
         default: Date.now
     },
-    avilable:{
+    available:{
         type: Boolean,
         default: true
     }
@@ -104,6 +104,14 @@ app.post('/addproduct', async(req,res)=>{
 })
 
 //Eliminar productos 5:47:24
+app.post("/removeproduct", async (req, res)=>{
+    await Product.findOneAndDelete({id:req.body.id});
+    console.log("remove");
+    res.json({
+        sucess:true,
+        name:req.body.name
+    })
+})
 
 
 app.listen(port, (error)=>{
