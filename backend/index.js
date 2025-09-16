@@ -74,7 +74,7 @@ const Product = mongoose.model("Product", {
     }
 })
 
-//Añadir productos
+//Endpoint para añadir productos
 app.post('/addproduct', async(req,res)=>{
     let products = await Product.find({});
     let id;
@@ -103,7 +103,7 @@ app.post('/addproduct', async(req,res)=>{
     })
 })
 
-//Eliminar productos 5:47:24
+//Endpoint para eliminar productos
 app.post("/removeproduct", async (req, res)=>{
     await Product.findOneAndDelete({id:req.body.id});
     console.log("remove");
@@ -111,6 +111,13 @@ app.post("/removeproduct", async (req, res)=>{
         sucess:true,
         name:req.body.name
     })
+})
+
+//Endpoint para obtener todos los productos
+app.get("/allproducts", async (req, res)=>{
+    let products = await Product.find({});
+    console.log("Consultados todos los productos");
+    res.send(products);
 })
 
 
