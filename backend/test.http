@@ -13,7 +13,7 @@ POST http://localhost:4000/addproduct
 Content-Type: application/json
 
 {
-    "name": "Product 123456",
+    "name": "Artesania",
     "category": "kid",
     "new_price": 10,
     "old_price": 8,
@@ -32,3 +32,22 @@ Content-Type: application/json
 ### Eliminar un producto
 GET http://localhost:4000/allproducts
 Content-Type: application/json
+
+### Crear Usuario
+POST http://localhost:4000/signup
+Content-Type: application/json
+
+{
+    "username": "PruebaRene",
+    "password": "123",
+    "email": "user@gmail.com"
+}
+
+### Iniciar sesion
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+    "email": "user@gmail.com",
+    "password": "123"
+}
