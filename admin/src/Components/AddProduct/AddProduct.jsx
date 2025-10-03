@@ -75,6 +75,7 @@ const AddProduct = () => {
           <option value="women">Women</option>
           <option value="men">Men</option>
           <option value="kid">Kid</option>
+          <option value="ropa">Ropa</option>
         </select>
       </div>
       <div className="addproduct-itemfield">
