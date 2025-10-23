@@ -1,0 +1,68 @@
+### Subir una imagen de producto
+POST http://localhost:4000/api/upload
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="product"; filename="test-image.jpg"
+Content-Type: image/jpeg
+
+< /home/rene/Documentos/noveno/ProyectoServicio/frontend/src/Components/Assets/logo.png
+--MyBoundary--
+### Añadir un nuevo producto
+POST http://localhost:4000/api/products/add
+Content-Type: application/json
+
+{
+    "name": "backend2",
+    "category": "kid",
+    "new_price": 10,
+    "old_price": 8,
+    "image": "url_de_la_imagen.jpg"
+}
+
+### Eliminar un producto
+POST http://localhost:4000/api/products/remove
+Content-Type: application/json
+
+{
+    "id": 2,
+    "name": "product 123"
+}
+
+### Mostrar todos los productoss
+GET http://localhost:4000/api/products/all
+Content-Type: application/json
+
+### Crear Usuario
+POST http://localhost:4000/api/users/signup
+Content-Type: application/json
+
+{
+    "username": "PruebaRenebacc",
+    "password": "123",
+    "email": "user@gmail.com"
+}
+
+### Iniciar sesion
+POST http://localhost:4000/api/users/login
+Content-Type: application/json
+
+{
+    "email": "user@gmail.com",
+    "password": "123"
+}
+
+### New Collections
+GET http://localhost:4000/api/products/newcollections
+
+### Popular in women
+GET http://localhost:4000/api/products/popularinwomen
+
+### P
+POST http://localhost:4000/api/cart/add
+Content-Type: application/json
+
+{
+    "id": "68f9b1b9f3cca178d6dc3833",
+    "password": "123"
+}
