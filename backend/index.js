@@ -216,9 +216,49 @@ app.get('/popularinwomen', async (req, res)=>{
     res.send(popular_in_women);
 })
 
+//Creacion middleware para fetch usuario
+const fetchUser = async (req, res, next) =>{
+    const token = req.header('auth-token');
+    if(!token){
+        res.status(401).send({errors:"Se necesita autentificar con token"})
+    }
+    else{
+        try {
+            const data = jwt.verify(token, 'secret_ecom');
+            req.user = data.user;
+            next();
+            
+        } catch (error) {
+            res.status(401).send({errors:"Se necesita autentificar con token"})
+        }
+    }
+
+}
+
 //Endpoint para añadir productos en cartdata
-app.post('/addtocart', async (req, res)=>{
-    console.log(req.body);
+app.post('/addtocart', fetchUser, async (req, res)=>{
+    console.log("Agregado", req.body.itemId);
+    let userData = await Users.findOne({_id:req.user.id});
+    userData.cartData[req.body.itemId] += 1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.send("Agregado")
+})
+
+//Endpoint para borrar productos de cartData
+app.post('/removefromcart',fetchUser, async (req,res)=>{
+    console.log("Eliminado", req.body.itemId);
+    let userData = await Users.findOne({_id:req.user.id});
+    if(userData.cartData[req.body.itemId]>0)
+    userData.cartData[req.body.itemId] -= 1;
+    await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
+    res.send("Eliminado")
+})
+
+//Endpoint obtener cartdata
+app.post('/getcart', fetchUser, async (req, res)=>{
+    console.log("get cart");
+    let userData = await Users.findOne({_id:req.user.id});
+    res.json(userData.cartData);
 })
 
 app.listen(port, (error)=>{
