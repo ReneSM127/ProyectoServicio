@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
+import api from '../api/api'
 
 export const ShopContext = createContext(null);
 const getDefaultCart = () => {
@@ -14,56 +15,55 @@ const ShopContextProvider = (props) => {
     const [all_product,setAll_Product] = useState([]);
     const [cartItems, setCartItems] = useState(getDefaultCart());
 
-    useEffect(()=>{
-        fetch('http://localhost:4000/api/products/all')
-        .then((response)=>response.json())
-        .then((data)=>setAll_Product(data))
+    useEffect(() => {
+        api.get('/products/all')
+            .then((response) => {
+                setAll_Product(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching products:", error);
+            });
 
-        if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/api/cart/get',{
-                method: 'POST',
-                headers:{
-                    Accept:'application/form-data',
-                    'auth-token':`${localStorage.getItem('auth-token')}`,
-                    'Content-Type':'application/json',
-                },
-                body:"",
-            }).then((response)=>response.json())
-            .then((data)=>setCartItems(data));
+        if (localStorage.getItem('auth-token')) {
+            api.post('/cart/get', {})
+            .then((response) => {
+                setCartItems(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching cart:", error);
+            });
         }
-    },[])
+    }, []);
     
     const addToCart = (itemId) => {
-        setCartItems((prev) => ({...prev,[itemId]:prev[itemId]+1}))
-        if (localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/api/cart/add',{
-                method: 'POST',
-                headers:{
-                    Accept: 'application/form-data',
-                    'auth-token': `${localStorage.getItem('auth-token')}`,
-                    'Content-Type': 'application/json',
-                },
-                body:JSON.stringify({"itemId":itemId}),
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+
+        if (localStorage.getItem('auth-token')) {
+            const payload = { itemId: itemId };
+            
+            api.post('/cart/add', payload)
+            .then((response) => {
+                console.log(response.data);
             })
-            .then((response)=>response.json())
-            .then((data)=>console.log(data));
+            .catch((error) => {
+                console.error("Error adding to cart:", error);
+            });
         }
     }
 
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({...prev,[itemId]:prev[itemId]-1}))
-        if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/api/cart/remove',{
-                method: 'POST',
-                headers:{
-                    Accept: 'application/form-data',
-                    'auth-token': `${localStorage.getItem('auth-token')}`,
-                    'Content-Type': 'application/json',
-                },
-                body:JSON.stringify({"itemId":itemId}),
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+
+        if (localStorage.getItem('auth-token')) {
+            const payload = { itemId: itemId };
+
+            api.post('/cart/remove', payload)
+            .then((response) => {
+                console.log(response.data);
             })
-            .then((response)=>response.json())
-            .then((data)=>console.log(data));
+            .catch((error) => {
+                console.error("Error removing from cart:", error);
+            });
         }
     }
 

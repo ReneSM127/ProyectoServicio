@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import './NewCollections.css'
 import Item from '../Item/Item'
+import api from '../../api/api'
 
 const NewCollections = () => {
 
-    const [new_collection,setNew_Collection] = useState([]);
+    const [new_collection, setNew_Collection] = useState([]);
 
-    useEffect(()=>{
-        fetch('http://localhost:4000/api/products/newcollections')
-        .then((response)=>response.json())
-        .then((data)=>setNew_Collection(data))
-    },[])
+    useEffect(() => {
+        api.get('/products/newcollections')
+            .then((response) => {
+                setNew_Collection(response.data);
+            })
+            .catch((error) => {
+                console.error("Error al obtener nuevas colecciones:", error);
+            });
+    }, []);
 
     return (
         <div className='new-collections'>

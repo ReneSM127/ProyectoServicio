@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import "./Popular.css"
+import api from '../../api/api'
 import Item from "../Item/Item"
 const Popular = () => {
 
-    const [popularProducts,setPopularProducts] = useState([]);
-    useEffect(()=>{
-        fetch('http://localhost:4000/api/products/popularinwomen')
-        .then((response)=>response.json())
-        .then((data) => setPopularProducts(data))
-    },[])
+    const [popularProducts, setPopularProducts] = useState([]);
+
+    useEffect(() => {
+        api.get('/products/popularinwomen')
+            .then((response) => {
+                setPopularProducts(response.data);
+            })
+            .catch((error) => {
+                console.error("Error al obtener productos populares:", error);
+            });
+    }, []);
 
     return (
         <div className="popular">
