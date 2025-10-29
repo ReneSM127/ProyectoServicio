@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./ListProduct.css";
 import cross_icon from '../../assets/cross_icon.png'
+import api from '../api/api'
 
 const ListProduct = () => {
   const [allproducts, setAllProducts] = useState([]);
 
   const fetchInfo = async () => {
-    await fetch("http://localhost:4000/api/products/all")
-      .then((resp) => resp.json())
-      .then((data) => {
-        setAllProducts(data);
-      });
+    try {
+      const response = await api.get("/products/all");
+      setAllProducts(response.data);
+    } catch (error) {
+      console.error("Error al cargar los productos:", error);
+      alert("No se pudieron cargar los productos.");
+    }
   };
 
   useEffect(()=>{
@@ -18,15 +21,15 @@ const ListProduct = () => {
   },[])
 
   const remove_product = async (id)=>{
-    await fetch('http://localhost:4000/api/products/remove',{
-      method:'POST',
-      headers:{
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify({id:id})
-    })
-    await fetchInfo();
+    try {
+      await api.post('/products/remove', { id: id });
+      
+      await fetchInfo(); 
+
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      alert("No se pudo eliminar el producto.");
+    }
   }
 
   return (

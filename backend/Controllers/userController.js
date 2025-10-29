@@ -13,7 +13,14 @@ exports.signup = async (req, res) => {
   await user.save();
 
   const token = jwt.sign({ user: { id: user.id } }, process.env.JWT_SECRET);
-  res.json({ success: true, token });
+  res.cookie('token', token, {
+    httpOnly: true, // La cookie no es accesible desde JavaScript en el cliente
+    secure: process.env.NODE_ENV === 'production', // Enviar solo por HTTPS en producción
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000 
+  });
+
+  res.json({ success: true });
 };
 
 exports.login = async (req, res) => {
@@ -25,5 +32,21 @@ exports.login = async (req, res) => {
     return res.json({ success: false, errors: "Contraseña incorrecta" });
 
   const token = jwt.sign({ user: { id: user.id } }, process.env.JWT_SECRET);
-  res.json({ success: true, token });
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  });
+
+  res.json({ success: true });
+};
+
+exports.logout = (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict'
+  });
+  res.json({ success: true, message: "Sesión cerrada" });
 };

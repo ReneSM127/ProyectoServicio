@@ -1,6 +1,7 @@
 import React, { forwardRef, useState } from "react";
 import "./AddProduct.css";
 import upload_area from "../../assets/upload_area.svg";
+import api from '../api/api'
 
 const AddProduct = () => {
 
@@ -22,34 +23,43 @@ const AddProduct = () => {
   }
 
   const Add_Product = async ()=>{
-    console.log(productDetails);
-    let responseData;
-    let product = productDetails;
+    
+    if (!image || !productDetails.name || !productDetails.new_price || !productDetails.old_price) {
+      alert("Por favor, completa todos los campos y selecciona una imagen.");
+      return;
+    }
 
-    let formData = new FormData();
-    formData.append('product', image);
+    console.log("Iniciando subida...", productDetails);
+    
+    try {
+      const formData = new FormData();
+      formData.append('product', image); 
+      const uploadResponse = await api.post('/upload', formData);
+      const responseData = uploadResponse.data;
 
-    await fetch('http://localhost:4000/api/upload',{
-      method: 'POST',
-      headers:{
-        Accept:'application/json',
-      },
-      body:formData,
-    }).then((resp) => resp.json()).then((data)=>{responseData=data});
+      if(responseData.success){
+        let product = { ...productDetails, image: responseData.image_url };
+        console.log("Imagen subida, añadiendo producto:", product);
 
-    if(responseData.success){
-      product.image = responseData.image_url;
-      console.log(product);
-      await fetch('http://localhost:4000/api/products/add',{
-        method:'POST',
-        headers:{
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body:JSON.stringify(product),
-      }).then((resp)=>resp.json()).then((data)=>{
-        data.success?alert("Producto añadido"):alert("Hubo un error")
-      })
+        const addProductResponse = await api.post('/products/add', product);
+        
+        if (addProductResponse.data.success) {
+          alert("Producto añadido exitosamente");
+          setImage(false);
+          setProductoDetails({
+            name:"", image:"", category:"women", new_price:"", old_price:""
+          });
+        } else {
+          alert("Error al añadir el producto a la base de datos.");
+        }
+        
+      } else {
+        alert("Error al subir la imagen.");
+      }
+
+    } catch (error) {
+      console.error("Error en el proceso de añadir producto:", error);
+      alert("Ocurrió un error. Revisa la consola para más detalles.");
     }
   }
 

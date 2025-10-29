@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 const fetchUser = (req, res, next) => {
-  const token = req.header("auth-token");
+  //const token = req.header("auth-token");
+  const token = req.cookies.token; // Leer la cookie llamada 'token'
   if (!token) return res.status(401).json({ errors: "Token requerido" });
 
   try {

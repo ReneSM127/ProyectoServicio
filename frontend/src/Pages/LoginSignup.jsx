@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './CSS/LoginSignup.css'
+import api from '../api/api'
 
 const LoginSignup = () => {
 
@@ -16,45 +17,40 @@ const LoginSignup = () => {
 
   const login = async ()=>{
     console.log("Iniciar sesion", formData);
-    let responseData;
-    await fetch('http://localhost:4000/api/users/login',{
-      method: 'POST',
-      headers:{
-        Accept:'application/form-data',
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify(formData),
-    }).then((response)=> response.json()).then((data)=> responseData = data)
     
-    if(responseData.success){
-      localStorage.setItem('auth-token',responseData.token);
-      window.location.replace("/");
-    }
-    else{
-      alert(responseData.errors)
+    try {
+      const response = await api.post('/users/login', formData);
+      const responseData = response.data;
+
+      if(responseData.success){
+        localStorage.setItem('isLoggedIn', 'true');
+        window.location.replace("/");
+      }
+      else{
+        alert(responseData.errors)
+      }
+    } catch (error) {
+      alert("Error al iniciar sesión: " + (error.response?.data?.errors || error.message));
     }
   }
 
   const signup = async ()=>{
     console.log("Registrarse", formData);
-    let responseData;
-    await fetch('http://localhost:4000/api/users/signup',{
-      method: 'POST',
-      headers:{
-        Accept:'application/form-data',
-        'Content-Type': 'application/json',
-      },
-      body:JSON.stringify(formData),
-    }).then((response)=> response.json()).then((data)=> responseData = data)
-    
-    if(responseData.success){
-      localStorage.setItem('auth-token',responseData.token);
-      window.location.replace("/");
-    }
-    else{
-      alert(responseData.errors)
-    }
 
+    try {
+      const response = await api.post('/users/signup', formData);
+      const responseData = response.data;
+
+      if(responseData.success){
+        localStorage.setItem('isLoggedIn', 'true');
+        window.location.replace("/");
+      }
+      else{
+        alert(responseData.errors)
+      }
+    } catch (error) {
+      alert("Error al registrarse: " + (error.response?.data?.errors || error.message));
+    }
   }
 
 

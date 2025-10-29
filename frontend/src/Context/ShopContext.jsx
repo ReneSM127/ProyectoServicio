@@ -24,7 +24,7 @@ const ShopContextProvider = (props) => {
                 console.error("Error fetching products:", error);
             });
 
-        if (localStorage.getItem('auth-token')) {
+        if (localStorage.getItem('isLoggedIn')) {
             api.post('/cart/get', {})
             .then((response) => {
                 setCartItems(response.data);
@@ -38,7 +38,7 @@ const ShopContextProvider = (props) => {
     const addToCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
 
-        if (localStorage.getItem('auth-token')) {
+        if (localStorage.getItem('isLoggedIn')) {
             const payload = { itemId: itemId };
             
             api.post('/cart/add', payload)
@@ -54,7 +54,7 @@ const ShopContextProvider = (props) => {
     const removeFromCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
 
-        if (localStorage.getItem('auth-token')) {
+        if (localStorage.getItem('isLoggedIn')) {
             const payload = { itemId: itemId };
 
             api.post('/cart/remove', payload)
