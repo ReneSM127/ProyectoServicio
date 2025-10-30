@@ -1,99 +1,110 @@
-import React, { createContext, useEffect, useState } from 'react'
-import api from '../api/api'
+import React, { createContext, useEffect, useState } from "react";
+import api from "../api/api";
 
 export const ShopContext = createContext(null);
-const getDefaultCart = () => {
-    let cart = {};
-    for (let index = 0; index < 300; index++) {
-        cart[index] = 0;
-    }
-    return cart;
-}
 
 const ShopContextProvider = (props) => {
-    
-    const [all_product,setAll_Product] = useState([]);
-    const [cartItems, setCartItems] = useState(getDefaultCart());
+  const [all_product, setAll_Product] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
-    useEffect(() => {
-        api.get('/products/all')
-            .then((response) => {
-                setAll_Product(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching products:", error);
-            });
+  useEffect(() => {
+    api
+      .get("/products/all")
+      .then((response) => {
+        setAll_Product(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
 
-        if (localStorage.getItem('isLoggedIn')) {
-            api.post('/cart/get', {})
-            .then((response) => {
-                setCartItems(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching cart:", error);
-            });
-        }
-    }, []);
-    
-    const addToCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-
-        if (localStorage.getItem('isLoggedIn')) {
-            const payload = { itemId: itemId };
-            
-            api.post('/cart/add', payload)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error adding to cart:", error);
-            });
-        }
+    if (localStorage.getItem("isLoggedIn")) {
+      api
+        .post("/cart/get", {})
+        .then((response) => {
+          const cartData = response.data.cart || response.data;
+          console.log(cartData);
+          setCartItems(cartData);
+        })
+        .catch((error) => {
+          console.error("Error fetching cart:", error);
+        });
     }
+  }, []);
 
-    const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  const addToCart = (itemId) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.productId === itemId);
+      if (existing) {
+        return prev.map((item) =>
+          item.productId === itemId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prev, { productId: itemId, quantity: 1 }];
+      }
+    });
 
-        if (localStorage.getItem('isLoggedIn')) {
-            const payload = { itemId: itemId };
-
-            api.post('/cart/remove', payload)
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error removing from cart:", error);
-            });
-        }
+    if (localStorage.getItem("isLoggedIn")) {
+      api
+        .post("/cart/add", { itemId })
+        .then((response) => console.log(response.data))
+        .catch((error) => console.error("Error adding to cart:", error));
     }
+  };
 
-    const getTotalCartAmount = () => {
-        let totalAmount = 0;
-        for(const item in cartItems){
-            if(cartItems[item] > 0){
-                let itemInfo = all_product.find((product)=>product.id===Number(item))
-                totalAmount += itemInfo.new_price * cartItems[item];
-            }
-        }
-        return totalAmount;
+  const removeFromCart = (itemId) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.productId === itemId);
+      if (!existing) return prev;
+
+      if (existing.quantity > 1) {
+        return prev.map((item) =>
+          item.productId === itemId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        );
+      } else {
+        return prev.filter((item) => item.productId !== itemId);
+      }
+    });
+
+    if (localStorage.getItem("isLoggedIn")) {
+      api
+        .post("/cart/remove", { itemId })
+        .then((response) => console.log(response.data))
+        .catch((error) => console.error("Error removing from cart:", error));
     }
+  };
 
-    const getTotalCartItems = () =>{
-        let totalItem = 0;
-        for(const item in cartItems){
-            if(cartItems[item] > 0){
-                totalItem += cartItems[item];
-            }
-        }
-        return totalItem;
-    }
+  const getTotalCartAmount = () => {
+    let total = 0;
+    cartItems.forEach((cartItem) => {
+      const product = all_product.find((p) => p._id === cartItem.productId);
+      if (product) {
+        total += product.new_price * cartItem.quantity;
+      }
+    });
+    return total;
+  };
 
-    const contextValue = {getTotalCartItems, getTotalCartAmount, all_product, cartItems, addToCart, removeFromCart};
-    return (
-        <ShopContext.Provider value={contextValue}>
-            {props.children}
-        </ShopContext.Provider>
-    )
-}
+  const getTotalCartItems = () => {
+    return cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  };
+
+  const contextValue = {
+    getTotalCartItems,
+    getTotalCartAmount,
+    all_product,
+    cartItems,
+    addToCart,
+    removeFromCart,
+  };
+  return (
+    <ShopContext.Provider value={contextValue}>
+      {props.children}
+    </ShopContext.Provider>
+  );
+};
 
 export default ShopContextProvider;

@@ -6,10 +6,8 @@ exports.signup = async (req, res) => {
   const check = await User.findOne({ email });
   if (check) return res.status(400).json({ success: false, errors: "Email en uso" });
 
-  let cart = {};
-  for (let i = 0; i < 300; i++) cart[i] = 0;
 
-  const user = new User({ name: username, email, password, cartData: cart });
+  const user = new User({ name: username, email, password });
   await user.save();
 
   const token = jwt.sign({ user: { id: user.id } }, process.env.JWT_SECRET);
