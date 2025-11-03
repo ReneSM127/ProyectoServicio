@@ -8,10 +8,14 @@ const AddProduct = () => {
   const [image,setImage] = useState(false);
   const [productDetails, setProductoDetails] = useState({
     name:"",
+    description: "", // <-- NUEVO
     image:"",
     category:"women",
+    tags: "", // <-- NUEVO (como string, lo convertiremos a array al enviar)
     new_price:"",
-    old_price:""
+    old_price:"",
+    stock: "", // <-- NUEVO
+    available: "true" // <-- NUEVO (como string para el select)
   })
 
   const changeHandler = (e) =>{
@@ -24,8 +28,9 @@ const AddProduct = () => {
 
   const Add_Product = async ()=>{
     
-    if (!image || !productDetails.name || !productDetails.new_price || !productDetails.old_price) {
-      alert("Por favor, completa todos los campos y selecciona una imagen.");
+    // <-- VALIDACIÓN ACTUALIZADA -->
+    if (!image || !productDetails.name || !productDetails.new_price || !productDetails.old_price || !productDetails.description || !productDetails.stock) {
+      alert("Por favor, completa todos los campos obligatorios y selecciona una imagen.");
       return;
     }
 
@@ -38,7 +43,20 @@ const AddProduct = () => {
       const responseData = uploadResponse.data;
 
       if(responseData.success){
-        let product = { ...productDetails, image: responseData.image_url };
+        
+        // <-- PROCESAMIENTO DE DATOS ANTES DE ENVIAR -->
+        const tagsArray = productDetails.tags.split(',') // Convierte string a array
+                                            .map(tag => tag.trim()) // Limpia espacios
+                                            .filter(tag => tag); // Remueve tags vacíos
+
+        let product = { 
+          ...productDetails, 
+          image: responseData.image_url,
+          tags: tagsArray, // Envía el array de tags
+          stock: Number(productDetails.stock), // Convierte a número
+          available: productDetails.available === "true" // Convierte a booleano
+        };
+
         console.log("Imagen subida, añadiendo producto:", product);
 
         const addProductResponse = await api.post('/products/add', product);
@@ -46,8 +64,17 @@ const AddProduct = () => {
         if (addProductResponse.data.success) {
           alert("Producto añadido exitosamente");
           setImage(false);
+          // <-- RESETEO DE ESTADO ACTUALIZADO -->
           setProductoDetails({
-            name:"", image:"", category:"women", new_price:"", old_price:""
+            name:"",
+            description: "",
+            image:"",
+            category:"women",
+            tags: "",
+            new_price:"",
+            old_price:"",
+            stock: "",
+            available: "true"
           });
         } else {
           alert("Error al añadir el producto a la base de datos.");
@@ -69,16 +96,36 @@ const AddProduct = () => {
         <p>Titulo producto</p>
         <input value={productDetails.name} onChange={changeHandler} type="text" name="name" placeholder="Escribe aquí" />
       </div>
+
+      {/* <-- NUEVO CAMPO: DESCRIPCIÓN --> */}
+      <div className="addproduct-itemfield">
+        <p>Descripción</p>
+        <textarea 
+          value={productDetails.description} 
+          onChange={changeHandler} 
+          name="description" 
+          placeholder="Describe tu producto..."
+          rows="5"
+        />
+      </div>
+
       <div className="addproduct-price">
         <div className="addproduct-itemfield">
           <p>Precio</p>
-          <input value={productDetails.old_price} onChange={changeHandler} type="text" name="old_price" placeholder="Escribe aquí" />
+          <input value={productDetails.old_price} onChange={changeHandler} type="number" name="old_price" placeholder="Escribe aquí" />
         </div>
         <div className="addproduct-itemfield">
           <p>Precio de oferta</p>
-          <input value={productDetails.new_price} onChange={changeHandler} type="text" name="new_price" placeholder="Escribe aquí" />
+          <input value={productDetails.new_price} onChange={changeHandler} type="number" name="new_price" placeholder="Escribe aquí" />
         </div>
       </div>
+
+      {/* <-- NUEVO CAMPO: STOCK --> */}
+      <div className="addproduct-itemfield">
+        <p>Stock (Cantidad disponible)</p>
+        <input value={productDetails.stock} onChange={changeHandler} type="number" name="stock" placeholder="Ej: 10" />
+      </div>
+
       <div className="addproduct-itemfield">
         <p>Categoría</p>
         <select value={productDetails.category} onChange={changeHandler} name="category" className="add-product-selecter">
@@ -88,6 +135,22 @@ const AddProduct = () => {
           <option value="ropa">Ropa</option>
         </select>
       </div>
+
+      {/* <-- NUEVO CAMPO: TAGS --> */}
+      <div className="addproduct-itemfield">
+        <p>Tags (separados por comas)</p>
+        <input value={productDetails.tags} onChange={changeHandler} type="text" name="tags" placeholder="Ej: cerámica, hecho a mano, taza" />
+      </div>
+
+      {/* <-- NUEVO CAMPO: DISPONIBILIDAD --> */}
+      <div className="addproduct-itemfield">
+        <p>Disponibilidad</p>
+        <select value={productDetails.available} onChange={changeHandler} name="available" className="add-product-selecter">
+          <option value="true">Disponible</option>
+          <option value="false">No Disponible</option>
+        </select>
+      </div>
+
       <div className="addproduct-itemfield">
         <label htmlFor="file-input">
           <img src={image?URL.createObjectURL(image): upload_area} className="addproduct-thumnail-img" alt="" />

@@ -92,6 +92,31 @@ const ShopContextProvider = (props) => {
     return cartItems.reduce((sum, item) => sum + item.quantity, 0);
   };
 
+  const checkout = () => {
+    if (!localStorage.getItem("isLoggedIn")) {
+      // Opcional: redirigir a login si no está logueado
+      alert("Por favor, inicia sesión para comprar");
+      // (Aquí podrías usar react-router-dom para redirigir)
+      return;
+    }
+
+    api
+      .post("/orders/create", {}) // Llama al nuevo endpoint
+      .then((response) => {
+        if (response.data.success) {
+          alert("¡Compra realizada con éxito!");
+          // 2. Limpia el estado del carrito local
+          setCartItems([]);
+          // Opcional: Redirigir al usuario a una página de "gracias"
+          // window.location.href = '/mis-pedidos';
+        }
+      })
+      .catch((error) => {
+        console.error("Error al procesar la compra:", error);
+        alert("Hubo un error al procesar tu compra.");
+      });
+  };
+
   const contextValue = {
     getTotalCartItems,
     getTotalCartAmount,
@@ -99,6 +124,7 @@ const ShopContextProvider = (props) => {
     cartItems,
     addToCart,
     removeFromCart,
+    checkout
   };
   return (
     <ShopContext.Provider value={contextValue}>

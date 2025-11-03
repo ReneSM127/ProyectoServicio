@@ -12,6 +12,12 @@
     gap: 10px;
 }
 
+.nav-logo img{
+    height: 70px;
+    width: 60px;
+}
+
+
 .nav-logo p{
     color: red;
     font-size: 38px;
@@ -91,7 +97,7 @@
         padding: 12px 50px;
     }
     .nav-logo img{
-        width: 40px;
+        width: 60px;
     }
     .nav-logo p{
         font-size: 25px;

@@ -11,6 +11,7 @@ const productRoutes = require("./Routes/productRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const uploadRoutes = require("./Routes/uploadRoutes");
 const cartRoutes = require("./Routes/cartRoutes");
+const orderRoutes = require("./Routes/orderRoutes");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -37,6 +38,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
 
 // Servir imágenes estáticas
 app.use("/images", express.static(path.join(__dirname, "upload/images")));

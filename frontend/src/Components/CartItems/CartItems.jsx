@@ -4,7 +4,7 @@ import { ShopContext } from '../../Context/ShopContext';
 import remove_icon from '../Assets/cart_cross_icon.png';
 
 const CartItems = () => {
-  const { getTotalCartAmount, all_product, cartItems, removeFromCart } = useContext(ShopContext);
+  const { getTotalCartAmount, all_product, cartItems, removeFromCart, checkout } = useContext(ShopContext);
 
   // Combinar datos del carrito con la info del producto
   const itemsWithDetails = cartItems.map(cartItem => {
@@ -66,7 +66,7 @@ const CartItems = () => {
               <h3>${getTotalCartAmount()}</h3>
             </div>
           </div>
-          <button>Continuar al pago</button>
+          <button onClick={checkout}>Continuar al pago</button>
         </div>
         <div className="cartitems-promocode">
           <p>Si tienes un código promocional, ingrésalo aquí:</p>
