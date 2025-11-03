@@ -3,6 +3,7 @@
     height: 80vh;
     background: #fce3fe;
     padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 .loginsignup-container{
@@ -68,9 +69,12 @@
     font-weight: 500;
 }
 
-@media(max-width:1280px){
+/*@media(max-width:1280px){*/
+@media(max-width:1920px){
     .loginsignup{
         padding-top: 50px;
+        padding-bottom: 100px;
+
     }
     .loginsignup-container{
         width: auto;

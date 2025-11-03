@@ -61,8 +61,8 @@
     font-size: 16px;
 }
 
-/* Diseño Responsivo */
-@media(max-width:1280px){
+/* @media(max-width:1280px){ */
+@media(max-width:1920px){
     .artisanbox{
         margin: 60px;
     }

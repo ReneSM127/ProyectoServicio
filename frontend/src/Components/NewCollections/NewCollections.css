@@ -24,7 +24,8 @@
     gap: 30px;
 }
 
-@media(max-width:1280px){
+/*@media(max-width:1280px){*/
+@media(max-width:1920px){
     .new-collections h1{
         font-size: 40px;
     }

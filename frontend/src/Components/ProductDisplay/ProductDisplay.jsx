@@ -35,7 +35,7 @@ const ProductDisplay = (props) => {
                     <div className="productdisplay-right-price-new">${product.new_price}</div>
                 </div>
                 <div className="productdisplay-right-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, neque officiis quae veritatis doloremque a necessitatibus dicta omnis nulla ipsa inventore rem aliquam nemo sunt accusantium modi delectus, dolor asperiores!
+                    {product.description}
                 </div>
                 <div className="productdisplay-right-size">
                     <h1>Escoger talla</h1>

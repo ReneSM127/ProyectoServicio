@@ -48,7 +48,8 @@
     padding-top: 50px;
 }
 
-@media(max-width:1280px){
+/*@media(max-width:1280px){*/
+@media(max-width:1920px){
     .offers{
         padding: 0px 80px;
         margin-bottom: 120px;

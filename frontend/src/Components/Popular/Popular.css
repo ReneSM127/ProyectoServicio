@@ -22,8 +22,8 @@
     display: flex;
     gap: 30px;
 }
-
-@media(max-width:1280px){
+/*@media(max-width:1280px){*/
+@media(max-width:1920px){
     .popular{
         height: 70vh;
     }

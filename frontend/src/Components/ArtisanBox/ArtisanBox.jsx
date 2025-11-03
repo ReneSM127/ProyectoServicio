@@ -1,9 +1,5 @@
 import React from 'react';
 import './ArtisanBox.css';
-
-// Corregido: La ruta a la carpeta Assets debe subir dos niveles desde esta ubicación.
-// Asegúrate de tener una imagen de marcador de posición en tu carpeta de Assets
-// o reemplázala con la imagen real del artesano.
 import artisan_image from '../Assets/hero_image.png'; 
 
 const ArtisanBox = () => {
