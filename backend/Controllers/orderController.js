@@ -32,6 +32,7 @@ exports.createOrder = async (req, res) => {
         name: product.name,
         price: product.new_price,
         quantity: item.quantity,
+        image: product.image,
       });
     }
 
@@ -51,6 +52,19 @@ exports.createOrder = async (req, res) => {
 
     res.json({ success: true, message: "¡Orden creada con éxito!", order: newOrder });
 
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+// Obtener todas las órdenes del usuario
+exports.getMyOrders = async (req, res) => {
+  try {
+    // Busca todas las órdenes que pertenezcan al ID del usuario
+    // y las ordena de la más nueva a la más antigua
+    const orders = await Order.find({ user: req.user.id }).sort({ date: -1 });
+    
+    res.json({ success: true, orders: orders });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
