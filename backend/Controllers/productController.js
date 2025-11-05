@@ -1,16 +1,13 @@
 const Product = require("../Models/Product");
 
 exports.addProduct = async (req, res) => {
-  const products = await Product.find({});
-  const id = products.length ? products[products.length - 1].id + 1 : 1;
-
-  const product = new Product({ id, ...req.body });
+  const product = new Product({ ...req.body });
   await product.save();
   res.json({ success: true, product });
 };
 
 exports.removeProduct = async (req, res) => {
-  await Product.findOneAndDelete({ id: req.body.id });
+  await Product.findOneAndDelete({ _id: req.body._id });
   res.json({ success: true });
 };
 

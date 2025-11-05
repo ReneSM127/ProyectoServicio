@@ -20,15 +20,15 @@ const ListProduct = () => {
     fetchInfo();
   },[])
 
-  const remove_product = async (id)=>{
+  const remove_product = async (_id)=>{
     try {
-      await api.post('/products/remove', { id: id });
+      await api.post('/products/remove', { _id: _id });
       
       await fetchInfo(); 
 
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
-      alert("No se pudo eliminar el producto.");
+      alert(error);
     }
   }
 
@@ -52,7 +52,7 @@ const ListProduct = () => {
             <p>${product.old_price}</p>
             <p>${product.new_price}</p>
             <p>{product.category}</p>
-            <img onClick={()=>{remove_product(product.id)}} className="listproduct-remove-icon" src={cross_icon} alt="" />
+            <img onClick={()=>{remove_product(product._id)}} className="listproduct-remove-icon" src={cross_icon} alt="" />
           </div>
           <hr />
           </>

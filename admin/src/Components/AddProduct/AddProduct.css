@@ -14,17 +14,30 @@
     font-size: 16px;
 }
 
-.addproduct-itemfield input{
+/* 1. Estilos COMUNES para input y textarea */
+.addproduct-itemfield input,
+.addproduct-itemfield textarea {
     box-sizing: border-box;
     width: 100%;
-    height: 50px;
     border-radius: 4px;
-    padding-left: 4px;
+    padding: 12px 15px; /* Mejoramos el padding para que no esté pegado al borde */
     border: 1px solid #c3c3c3;
     outline: none;
     color: #7b7b7b;
     font-family: "Poppins";
     font-size: 14px;
+    margin-top: 4px; /* Pequeño espacio entre el <p> y el campo */
+    line-height: 1.5; /* Mejora la legibilidad */
+}
+
+/* 2. Estilos ESPECÍFICOS para cada uno */
+.addproduct-itemfield input {
+    height: 50px; /* Altura fija para inputs de una línea */
+}
+
+.addproduct-itemfield textarea {
+    min-height: 120px; /* Altura mínima, pero puede crecer */
+    resize: vertical;  /* Permite al usuario ajustar la altura, pero no el ancho */
 }
 
 .addproduct-price{
