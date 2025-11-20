@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ListProduct.css";
-import cross_icon from '../../assets/cross_icon.png'
+import cross_icon from '../../assets/cross.svg'
+import edit_icon from '../../assets/edit.svg'
+
 import api from '../api/api'
 
 const ListProduct = () => {
   const [allproducts, setAllProducts] = useState([]);
+  const navigate = useNavigate();
 
   const fetchInfo = async () => {
     try {
@@ -32,6 +36,10 @@ const ListProduct = () => {
     }
   }
 
+  const edit_product = (product) => {
+    navigate('/editproduct', { state: { product } });
+  }
+
   return (
     <div className="list-product">
       <h1>Lista de todos los productos</h1>
@@ -41,7 +49,7 @@ const ListProduct = () => {
         <p>Precio</p>
         <p>Precio Oferta</p>
         <p>Categoria</p>
-        <p>Remove</p>
+        <p>Acciones</p>
       </div>
       <div className="listproduct-allproducts">
         <hr />
@@ -52,7 +60,11 @@ const ListProduct = () => {
             <p>${product.old_price}</p>
             <p>${product.new_price}</p>
             <p>{product.category}</p>
-            <img onClick={()=>{remove_product(product._id)}} className="listproduct-remove-icon" src={cross_icon} alt="" />
+            {/* Contenedor para los iconos */}
+                <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
+                    <img onClick={()=>{edit_product(product)}} className="listproduct-edit-icon" src={edit_icon} alt="" />
+                    <img onClick={()=>{remove_product(product._id)}} className="listproduct-remove-icon" src={cross_icon} alt="" />
+                </div>
           </div>
           <hr />
           </>

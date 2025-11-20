@@ -33,6 +33,15 @@
 .listproduct-remove-icon{
     cursor: pointer;
     margin: auto;
+    height: 30px;
+    width: 30px;
+}
+
+.listproduct-edit-icon{
+    cursor: pointer;
+    margin: auto;
+    height: 20px;
+    width: 20px;
 }
 
 .listproduct-allproducts{
