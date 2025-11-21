@@ -24,13 +24,15 @@ exports.createOrder = async (req, res) => {
          return res.status(404).json({ success: false, message: `Producto con ID ${item.product} no encontrado` });
       }
 
-      const itemTotal = product.new_price * item.quantity;
+      const finalPrice = product.new_price === 0 ? product.old_price : product.new_price;
+
+      const itemTotal = finalPrice * item.quantity;
       totalAmount += itemTotal;
 
       orderItems.push({
         productId: product._id,
         name: product.name,
-        price: product.new_price,
+        price: finalPrice,
         quantity: item.quantity,
         image: product.image,
       });

@@ -82,7 +82,7 @@ const ShopContextProvider = (props) => {
     cartItems.forEach((cartItem) => {
       const product = all_product.find((p) => p._id === cartItem.productId);
       if (product) {
-        total += product.new_price * cartItem.quantity;
+        total += product.new_price === 0 ? product.old_price * cartItem.quantity : product.new_price * cartItem.quantity;
       }
     });
     return total;
@@ -108,7 +108,7 @@ const ShopContextProvider = (props) => {
           // 2. Limpia el estado del carrito local
           setCartItems([]);
           // Opcional: Redirigir al usuario a una página de "gracias"
-          // window.location.href = '/mis-pedidos';
+          window.location.href = '/MyOrders';
         }
       })
       .catch((error) => {

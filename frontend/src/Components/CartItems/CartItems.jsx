@@ -9,8 +9,17 @@ const CartItems = () => {
   // Combinar datos del carrito con la info del producto
   const itemsWithDetails = cartItems.map(cartItem => {
     const product = all_product.find(p => p._id === cartItem.productId);
-    return product ? { ...product, quantity: cartItem.quantity } : null;
-  }).filter(Boolean); // elimina nulls
+    if (!product) return null;
+
+    // Calculamos el precio aquí mismo y lo agregamos al objeto
+    const final_price = product.new_price === 0 ? product.old_price : product.new_price;
+    
+    return { 
+        ...product, 
+        quantity: cartItem.quantity,
+        final_price: final_price // Ahora es parte de los datos del ítem
+    };
+}).filter(Boolean);
 
   return (
     <div className='cartitems'>
@@ -32,9 +41,9 @@ const CartItems = () => {
             <div className="cartitems-format cartitems-format-main">
               <img src={item.image} alt={item.name} className='carticon-product-icon' />
               <p>{item.name}</p>
-              <p>${item.new_price}</p>
+              <p>${item.final_price}</p>
               <button className='cartitems-quantity'>{item.quantity}</button>
-              <p>${item.new_price * item.quantity}</p>
+              <p>${item.final_price * item.quantity}</p>
               <img
                 className='cartitems-remove-icon'
                 src={remove_icon}
