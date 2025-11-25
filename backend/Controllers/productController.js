@@ -41,6 +41,6 @@ exports.newCollections = async (req, res) => {
 };
 
 exports.popularInWomen = async (req, res) => {
-  const products = await Product.find({ category: "women" });
+  const products = await Product.find({ category: "hogar" });
   res.json(products.slice(0, 4));
 };

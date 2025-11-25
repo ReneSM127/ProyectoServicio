@@ -16,7 +16,7 @@ const EditProduct = () => {
     name: "",
     description: "",
     image: "",
-    category: "women",
+    category: "hogar",
     tags: "",
     new_price: "0",
     old_price: "",
@@ -130,9 +130,8 @@ const EditProduct = () => {
       <div className="addproduct-itemfield">
         <p>Categoría</p>
         <select value={productDetails.category} onChange={changeHandler} name="category" className="add-product-selecter">
-          <option value="women">Women</option>
-          <option value="men">Men</option>
-          <option value="kid">Kid</option>
+          <option value="hogar">Hogar</option>
+          <option value="accesorios">Accesorios</option>
           <option value="ropa">Ropa</option>
         </select>
       </div>

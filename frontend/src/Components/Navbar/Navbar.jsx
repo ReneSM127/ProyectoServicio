@@ -41,9 +41,9 @@ const Navbar = () => {
             <img className='nav-dropdown' onClick={dropdown_toggle} src={nav_dropdown} alt="" />
             <ul ref={menuRef} className='nav-menu'>
                 <li onClick={() => { setMenu("shop") }}><Link style={{textDecoration: 'none'}} to='/'>Tienda</Link>{menu === "shop" ? <hr /> : <></>}</li>
-                <li onClick={() => { setMenu("men") }}><Link style={{textDecoration: 'none'}} to='/mens'>Hogar</Link>{menu === "men" ? <hr /> : <></>}</li>
-                <li onClick={() => { setMenu("woman") }}><Link style={{textDecoration: 'none'}} to='/womens'>Accesorios</Link>{menu === "woman" ? <hr /> : <></>}</li>
-                <li onClick={() => { setMenu("kids") }}><Link style={{textDecoration: 'none'}} to='/kids'>Ropa</Link>{menu === "kids" ? <hr /> : <></>}</li>
+                <li onClick={() => { setMenu("hogar") }}><Link style={{textDecoration: 'none'}} to='/hogar'>Hogar</Link>{menu === "hogar" ? <hr /> : <></>}</li>
+                <li onClick={() => { setMenu("accesorios") }}><Link style={{textDecoration: 'none'}} to='/accesorios'>Accesorios</Link>{menu === "accesorios" ? <hr /> : <></>}</li>
+                <li onClick={() => { setMenu("ropa") }}><Link style={{textDecoration: 'none'}} to='/ropa'>Ropa</Link>{menu === "ropa" ? <hr /> : <></>}</li>
             </ul>
             <div className='nav-login-cart'>
                 {localStorage.getItem('isLoggedIn')

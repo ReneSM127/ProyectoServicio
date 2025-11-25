@@ -9,7 +9,7 @@ const AddProduct = () => {
     name: "",
     description: "",
     image: "",
-    category: "women",
+    category: "hogar",
     tags: "",
     new_price: "0",
     old_price: "",
@@ -92,7 +92,7 @@ const AddProduct = () => {
             name: "",
             description: "",
             image: "",
-            category: "women",
+            category: "hogar",
             tags: "",
             new_price: "0",
             old_price: "",
@@ -182,9 +182,8 @@ const AddProduct = () => {
           name="category"
           className="add-product-selecter"
         >
-          <option value="women">Women</option>
-          <option value="men">Men</option>
-          <option value="kid">Kid</option>
+          <option value="hogar">Hogar</option>
+          <option value="accesorios">Accesorios</option>
           <option value="ropa">Ropa</option>
         </select>
       </div>
